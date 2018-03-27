@@ -1,27 +1,25 @@
 #Main installation actions
 #https://clickhouse.yandex/docs/en/getting_started/index.html#installation
 
-- name: Install by APT | Apt-key add repo key
+- name: Install by APT | Apt-key add repo key from keyserver
   apt_key:
-    keyserver: "{{ clickhouse_repo_keyserver }}"
-    id: "{{ clickhouse_repo_key }}"
-  become: true
+    keyserver: "{{ clickhouse_repo_key_keyserver }}"
+    id: "{{ clickhouse_repo_key_id }}"
+  when: clickhouse_repo_key_method == "keyserver"
 
-- name: Install by APT | Remove old repo link of exists
-  apt_repository:
-    repo: "{{ clickhouse_repo_old }}"
-    state: absent
-  become: true
+- name: Install by APT | Apt-key add repo key from url
+  apt_key:
+    url: "{{ clickhouse_repo_key_url }}"
+    id: "{{ clickhouse_repo_key_id }}"
+  when: clickhouse_repo_key_method == "url"
 
 - name: Install by APT | Repo installation
   apt_repository:
     repo: "{{ clickhouse_repo }}"
     state: present
-  become: true
 
 - name: Install by APT | Package installation
   apt:
     name: "{{ item }}"
     state: latest
   with_items: "{{ clickhouse_package }}"
-  become: true

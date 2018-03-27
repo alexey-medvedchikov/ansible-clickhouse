@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!-- {{ ansible_managed }} -->
 <dictionaries>
-{% for dict in clickhouse_dicts %}
+{% for dict in clickhouse_dicts|default({}) %}
  <dictionary>
    <name>{{ clickhouse_dicts[dict].name }}</name>
    <source>

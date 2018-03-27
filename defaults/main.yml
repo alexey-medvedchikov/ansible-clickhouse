@@ -76,5 +76,3 @@ clickhouse_config:
   builtin_dictionaries_reload_interval: 3600
   max_session_timeout: 3600
   default_session_timeout: 60
-
-
